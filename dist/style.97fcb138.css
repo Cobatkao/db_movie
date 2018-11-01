@@ -1,0 +1,104 @@
+html {
+  font-size: 26.6666666667vw;
+}
+@media screen and (max-width: 320px) {
+  html {
+    font-size: 64px;
+  }
+}
+@media screen and (min-width: 540px) {
+  html {
+    font-size: 108px;
+  }
+}
+
+body {
+  max-width: 540px;
+  min-width: 320px;
+}
+
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+body {
+  font-family: "Oswald", sans-serif;
+  font-size: 0.12rem;
+  line-height: 1.2;
+  width: 100%;
+  height: 100%;
+}
+body main {
+  height: calc(100vh - 50px);
+  width: 100%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+body main section.item {
+  display: none;
+}
+body main section.item a {
+  display: block;
+  display: flex;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  padding-left: 0.05rem;
+  border-bottom: 0.01rem solid #ccc;
+}
+body main section.item a .cover, body main section.item a .cover > img {
+  width: 0.7rem;
+  height: 1.037rem;
+}
+body main section.item a .detail {
+  flex: 1;
+  padding-left: 0.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+body main section.item a .detail h2 {
+  font-size: 0.16rem;
+  color: #000;
+}
+body main section.item a .detail .extra {
+  margin-top: 0.04rem;
+  color: #000;
+}
+body main section.item a .detail .score {
+  color: #ff5722;
+}
+body main section.fired {
+  display: block;
+}
+body footer {
+  height: 0.5rem;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+body footer .bt-tab {
+  flex: 1;
+  text-align: center;
+}
+body footer .bt-tab svg.icon {
+  width: 0.16rem;
+  height: 0.16rem;
+}
+body footer .bt-tab span {
+  display: block;
+}
+body footer div.fired .icon {
+  fill: #ff5722;
+}
+body footer div.fired span {
+  color: #ff5722;
+}
