@@ -104,78 +104,74 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"script.js":[function(require,module,exports) {
-$(function () {
-  var $tab = $('footer > .bt-tab');
-  var $section = $('main > section');
-  var mvNum = 0;
-  var isLoading = false;
-  $tab.on('click', function () {
-    var index = $(this).index();
-    $(this).addClass('fired').siblings().removeClass('fired');
-    $section.eq(index).addClass('fired').siblings().removeClass('fired');
-  });
-  requestData();
+})({"../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-  function requestData() {
-    if (isLoading) return; //数据已发出，未到达
-
-    isLoading = true;
-    $.ajax({
-      url: 'https://api.douban.com/v2/movie/top250',
-      type: 'GET',
-      dataType: 'jsonp',
-      data: {
-        start: mvNum,
-        count: 20
-      }
-    }).done(function (data) {
-      console.log(data);
-      setData(data);
-    }).fail(function () {
-      console.log('err:' + err);
-    }).always(function () {
-      //数据到达后，重置为false
-      isLoading = false;
-    });
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
   }
 
-  $('main').on('scroll', function () {
-    if ($('section').eq(0).height() - 10 <= $('main').scrollTop + $('main').height()) {
-      requestData();
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
     }
-  }); // 生成数据
-
-  function setData(data) {
-    mvNum += 20;
-    data.subjects.forEach(function (ele) {
-      var template = "\n      <a href=\"#\">\n        <div class=\"cover\">\n          <img src=\"\" alt=\"\">\n        </div>\n        <div class=\"detail\">\n          <h2></h2>\n          <div class=\"extra\">\n            <span class=\"score\"></span>  / <span class=\"collect\"></span>\u6536\u85CF\n          </div>\n          <div class=\"extra\">\n             <span class=\"year\"> / <span class=\"genres\"></span> \n          </div>\n          <div class=\"extra\">\n            \u5BFC\u6F14\uFF1A<span class=\"director\"></span>\n          </div>\n          <div class=\"extra\">\n            \u4E3B\u6F14\uFF1A<span class=\"casting\"></span>\n          </div>\n        </div>\n      </a>\n    ";
-      var $node = $(template);
-      $node.find('.cover img').attr("src", ele.images.small);
-      $node.find('.detail h2').text(ele.title);
-      $node.find('.extra .score').text(ele.rating.average);
-      $node.find('.extra .collect').text(ele.collect_count);
-      $node.find('.extra .year').text(ele.year);
-      $node.find('.extra .genres').text(ele.genres.join(' / '));
-      $node.find('.extra .director').text(function () {
-        var director = [];
-        ele.directors.forEach(function (j) {
-          director.push(j.name);
-        });
-        return director.join('、');
-      });
-      $node.find('.extra .casting').text(function () {
-        var casting = [];
-        ele.casts.forEach(function (m) {
-          casting.push(m.name);
-        });
-        return casting.join('、');
-      });
-      $('section').eq(0).append($node);
-    });
   }
-});
-},{}],"../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/bundle-url.js"}],"../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -344,5 +340,4 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/hmr-runtime.js","script.js"], null)
-//# sourceMappingURL=/script.75da7f30.map
+},{}]},{},["../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/hmr-runtime.js"], null)

@@ -2,6 +2,7 @@ $(function() {
   let $tab = $('footer > .bt-tab')
   let $section = $('main > section')
   let mvNum = 0
+  let isLoading = false
 
   $tab.on('click', function() {
     let index = $(this).index()
@@ -9,21 +10,34 @@ $(function() {
     $section.eq(index).addClass('fired').siblings().removeClass('fired')
   })
 
-  $.ajax({
-    url: 'https://api.douban.com/v2/movie/top250',
-    type: 'GET',
-    dataType: 'jsonp',
-    data: {
-      start: mvNum,
-      count: 20
-    }
-  }).done(function(data) {
+  requestData()
+  function requestData() {
+    if (isLoading) return
+    //数据已发出，未到达
+    isLoading = true
+    $.ajax({
+      url: 'https://api.douban.com/v2/movie/top250',
+      type: 'GET',
+      dataType: 'jsonp',
+      data: {
+        start: mvNum,
+        count: 20
+      }
+    }).done(function(data) {
+      console.log(data)
+      setData(data)
+    }).fail(function() {
+      console.log('err:' + err)
+    }).always(function() {
+      //数据到达后，重置为false
+      isLoading = false
+    })
+  }
 
-    console.log(data)
-    setData(data)
-    
-  }).fail(function() {
-    console.log('err:' + err)
+  $('main').on('scroll', function() {
+    if($('section').eq(0).height() - 10 <= $('main').scrollTop + $('main').height()) {
+      requestData()
+    }
   })
 
   // 生成数据
