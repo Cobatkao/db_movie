@@ -35,7 +35,7 @@ $(function() {
   }
 
   $('main').on('scroll', function() {
-    if($('section').eq(0).height() - 10 <= $('main').scrollTop + $('main').height()) {
+    if($('section').eq(0).height() - 10 <= $('main').scrollTop() + $('main').height()) {
       requestData()
     }
   })
