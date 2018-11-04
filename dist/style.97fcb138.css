@@ -36,6 +36,36 @@ body {
   width: 100%;
   height: 100%;
 }
+body main section#Search .wrapper {
+  padding: 0.1rem;
+}
+body main section#Search .wrapper .search-area {
+  color: #333;
+  padding-bottom: 0.1rem;
+  border-bottom: 0.01rem solid #ccc;
+  position: relative;
+}
+body main section#Search .wrapper .search-area input[type=search] {
+  font-size: 0.12rem;
+  line-height: 1.2;
+  width: calc(100vw - 75px);
+  padding: 0.08rem;
+  background: #eee;
+  border: none;
+  border-radius: 0.02rem;
+  outline: none;
+  box-shadow: none;
+  margin-right: 0.05rem;
+}
+body main section#Search .wrapper .search-area span.button {
+  position: absolute;
+  right: 0;
+  padding: 0.08rem 0.1rem;
+  background: #FF6700;
+  color: #fff;
+  border-radius: 0.02rem;
+  cursor: pointer;
+}
 body main section {
   height: calc(100vh - 50px);
   width: 100%;

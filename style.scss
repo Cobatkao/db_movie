@@ -41,6 +41,46 @@ body {
 
   main {
 
+    section#Search {
+
+      .wrapper {
+        padding: rem(10);
+
+        .search-area {
+          color: #333;
+          padding-bottom: rem(10);
+          border-bottom: rem(1) solid #ccc;
+          position: relative;
+  
+          input[type="search"] {
+            font-size: rem(12);
+            line-height: 1.2;
+            width: calc(100vw - 75px);
+            padding: rem(8);
+            background: #eee;
+            border: none;
+            border-radius: rem(2);
+            outline: none;
+            box-shadow: none;
+            margin-right: rem(5);
+          }
+  
+          span.button {
+            position: absolute;
+            right: 0;
+            padding: rem(8) rem(10);
+            background: #FF6700;
+            color: #fff;
+            border-radius: rem(2);
+            cursor: pointer;
+          }
+  
+        }
+
+      }
+
+    }
+
     section {
       height: calc(100vh - 50px);
       width: 100%;
