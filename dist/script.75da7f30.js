@@ -105,76 +105,150 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"script.js":[function(require,module,exports) {
-$(function () {
-  var $tab = $('footer > .bt-tab');
-  var $section = $('main > section');
-  var mvNum = 0;
-  var isLoading = false;
-  $tab.on('click', function () {
-    var index = $(this).index();
-    $(this).addClass('fired').siblings().removeClass('fired');
-    $section.eq(index).addClass('fired').siblings().removeClass('fired');
-  });
-  requestData();
+var paging = {
+  init: function init() {
+    this.$tab = $('footer > .bt-tab');
+    this.$panel = $('main > section');
+    this.bind();
+  },
+  bind: function bind() {
+    var _this = this; //or arrow function
 
-  function requestData() {
-    if (isLoading) return; //数据已发出，未到达
 
-    isLoading = true;
+    this.$tab.on('click', function () {
+      var index = $(this).index();
+      $(this).addClass('fired').siblings().removeClass('fired');
+
+      _this.$panel.eq(index).addClass('fired').siblings().removeClass('fired');
+    });
+  } //模板部分
+
+};
+var tpl = {
+  isToBottom: function isToBottom($Viewport, $Content) {
+    return $Viewport.height() + $Viewport.scrollTop() + 30 > $Content.height();
+  },
+  insertTpl: function insertTpl(ele) {
+    var $node = $("\n      <div class=\"item\">\n        <a href=\"#\">\n          <div class=\"cover\">\n            <img src=\"\" alt=\"\">\n          </div>\n          <div class=\"detail\">\n            <h2></h2>\n            <div class=\"extra\">\n              <span class=\"score\"></span>  / <span class=\"collect\"></span>\u6536\u85CF\n            </div>\n            <div class=\"extra\">\n              <span class=\"year\"> / <span class=\"genres\"></span> \n            </div>\n            <div class=\"extra\">\n              <span class=\"director\"></span>\n            </div>\n            <div class=\"extra\">\n              <span class=\"casting\"></span>\n            </div>\n          </div>\n        </a>\n      </div>\n    ");
+    $node.find('.cover img').attr("src", ele.images.small);
+    $node.find('.detail h2').text(ele.title);
+    $node.find('.extra .score').text(ele.rating.average);
+    $node.find('.extra .collect').text(ele.collect_count);
+    $node.find('.extra .year').text(ele.year);
+    $node.find('.extra .genres').text(ele.genres.join(' / '));
+    $node.find('.extra .director').text("\u5BFC\u6F14\uFF1A".concat(ele.directors.map(function (i) {
+      return i.name;
+    }).join('、')));
+    $node.find('.extra .casting').text("\u6F14\u5458\uFF1A".concat(ele.casts.map(function (m) {
+      return m.name;
+    }).join('、')));
+    return $node;
+  } //top250页面
+
+};
+var top250Page = {
+  init: function init() {
+    var _this = this;
+
+    this.$element = $('main');
+    this.$content = this.$element.find('.container');
+    this.isLoading = false;
+    this.isFinishe = false;
+    this.page = 0;
+    this.count = 20;
+    this.bind(); //data参数即数据到达后的ret
+
+    this.getData(function (data) {
+      _this.render(data);
+
+      _this.page++;
+    });
+  },
+  bind: function bind() {
+    var _this = this;
+
+    this.$element.on('scroll', function () {
+      console.log(_this.isLoading);
+
+      if (tpl.isToBottom(_this.$element, _this.$content) && !_this.isLoading && !_this.isFinishe) {
+        console.log('reach bottom and ready to send data!');
+
+        _this.getData(function (data) {
+          _this.render(data);
+
+          _this.page++;
+
+          if (_this.count * _this.page >= data.total) {
+            _this.isFinishe = true;
+          }
+        });
+      }
+    });
+  },
+  getData: function getData(callback) {
+    var _this = this;
+
+    console.log(_this.page);
+    console.log(_this.count);
+    if (_this.isLoading) return; //数据已发出，未到达
+
+    _this.isLoading = true;
+
+    _this.$element.find('.loader').addClass('fired');
+
     $.ajax({
-      url: 'https://api.douban.com/v2/movie/top250',
+      url: 'https://douban.uieee.com/v2/movie/top250',
       type: 'GET',
       dataType: 'jsonp',
       data: {
-        start: mvNum,
-        count: 20
+        start: this.count * this.page,
+        count: this.count //20
+
       }
-    }).done(function (data) {
-      console.log(data);
-      setData(data);
-    }).fail(function () {
-      console.log('err:' + err);
-    }).always(function () {
-      //数据到达后，重置为false
-      isLoading = false;
+    }).done(function (ret) {
+      console.log(ret);
+      _this.isLoading = false;
+
+      _this.$element.find('.loader').removeClass('fired'); //执行回调
+
+
+      callback(ret);
+    }).fail(function (err) {
+      console.log('数据异常:' + err);
+    });
+  },
+  render: function render(data) {
+    var _this = this;
+
+    data.subjects.forEach(function (item) {
+      var $node = tpl.insertTpl(item);
+
+      _this.$content.append($node);
     });
   }
+};
+var usBoxPage = {
+  init: function init() {
+    this.$element = $('#beimei');
+  },
+  start: function start() {}
+};
+var searchPage = {
+  init: function init() {},
+  bind: function bind() {},
+  start: function start() {}
+};
+var app = {
+  init: function init() {
+    //初始化页面
+    paging.init();
+    top250Page.init();
+    usBoxPage.init();
+    searchPage.init();
+  } //初始化
 
-  $('main').on('scroll', function () {
-    if ($('section').eq(0).height() - 10 <= $('main').scrollTop() + $('main').height()) {
-      requestData();
-    }
-  }); // 生成数据
-
-  function setData(data) {
-    mvNum += 20;
-    data.subjects.forEach(function (ele) {
-      var template = "\n      <a href=\"#\">\n        <div class=\"cover\">\n          <img src=\"\" alt=\"\">\n        </div>\n        <div class=\"detail\">\n          <h2></h2>\n          <div class=\"extra\">\n            <span class=\"score\"></span>  / <span class=\"collect\"></span>\u6536\u85CF\n          </div>\n          <div class=\"extra\">\n             <span class=\"year\"> / <span class=\"genres\"></span> \n          </div>\n          <div class=\"extra\">\n            \u5BFC\u6F14\uFF1A<span class=\"director\"></span>\n          </div>\n          <div class=\"extra\">\n            \u4E3B\u6F14\uFF1A<span class=\"casting\"></span>\n          </div>\n        </div>\n      </a>\n    ";
-      var $node = $(template);
-      $node.find('.cover img').attr("src", ele.images.small);
-      $node.find('.detail h2').text(ele.title);
-      $node.find('.extra .score').text(ele.rating.average);
-      $node.find('.extra .collect').text(ele.collect_count);
-      $node.find('.extra .year').text(ele.year);
-      $node.find('.extra .genres').text(ele.genres.join(' / '));
-      $node.find('.extra .director').text(function () {
-        var director = [];
-        ele.directors.forEach(function (j) {
-          director.push(j.name);
-        });
-        return director.join('、');
-      });
-      $node.find('.extra .casting').text(function () {
-        var casting = [];
-        ele.casts.forEach(function (m) {
-          casting.push(m.name);
-        });
-        return casting.join('、');
-      });
-      $('section').eq(0).append($node);
-    });
-  }
-});
+};
+app.init();
 },{}],"../../.npm/_npx/4379/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

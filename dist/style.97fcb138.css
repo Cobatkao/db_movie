@@ -42,37 +42,50 @@ body main {
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
-body main section.item {
+body main section {
   display: none;
 }
-body main section.item a {
+body main section .loader {
+  padding: 0.1rem;
+  text-align: center;
+  display: none;
+}
+body main section .loader svg path, body main section .loader svg rect {
+  fill: #FF6700;
+}
+body main section .loader.fired {
   display: block;
-  display: flex;
+}
+body main section .container .item {
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
   padding-left: 0.05rem;
   border-bottom: 0.01rem solid #ccc;
 }
-body main section.item a .cover, body main section.item a .cover > img {
+body main section .container .item a {
+  display: block;
+  display: flex;
+}
+body main section .container .item a .cover, body main section .container .item a .cover > img {
   width: 0.7rem;
   height: 1.037rem;
 }
-body main section.item a .detail {
+body main section .container .item a .detail {
   flex: 1;
   padding-left: 0.1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-body main section.item a .detail h2 {
+body main section .container .item a .detail h2 {
   font-size: 0.16rem;
   color: #000;
 }
-body main section.item a .detail .extra {
+body main section .container .item a .detail .extra {
   margin-top: 0.04rem;
   color: #000;
 }
-body main section.item a .detail .score {
+body main section .container .item a .detail .score {
   color: #ff5722;
 }
 body main section.fired {
