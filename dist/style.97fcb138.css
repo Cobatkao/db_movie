@@ -36,60 +36,58 @@ body {
   width: 100%;
   height: 100%;
 }
-body main {
+body main section {
   height: calc(100vh - 50px);
   width: 100%;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
-}
-body main section {
   display: none;
 }
-body main section .loader {
+body main section.fired {
+  display: block;
+}
+body main section div.loader {
   padding: 0.1rem;
   text-align: center;
   display: none;
 }
-body main section .loader svg path, body main section .loader svg rect {
+body main section div.loader svg path, body main section div.loader svg rect {
   fill: #FF6700;
 }
-body main section .loader.fired {
+body main section div.loader.fired {
   display: block;
 }
-body main section .container .item {
+body main section div.container div.item {
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
   padding-left: 0.05rem;
   border-bottom: 0.01rem solid #ccc;
 }
-body main section .container .item a {
+body main section div.container div.item a {
   display: block;
   display: flex;
 }
-body main section .container .item a .cover, body main section .container .item a .cover > img {
+body main section div.container div.item a .cover, body main section div.container div.item a .cover > img {
   width: 0.7rem;
   height: 1.037rem;
 }
-body main section .container .item a .detail {
+body main section div.container div.item a div.detail {
   flex: 1;
   padding-left: 0.1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-body main section .container .item a .detail h2 {
+body main section div.container div.item a div.detail h2 {
   font-size: 0.16rem;
   color: #000;
 }
-body main section .container .item a .detail .extra {
+body main section div.container div.item a div.detail .extra {
   margin-top: 0.04rem;
   color: #000;
 }
-body main section .container .item a .detail .score {
+body main section div.container div.item a div.detail .score {
   color: #ff5722;
-}
-body main section.fired {
-  display: block;
 }
 body footer {
   height: 0.5rem;

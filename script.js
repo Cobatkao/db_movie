@@ -1,4 +1,4 @@
-var paging = {
+const paging = {
   init: function () {
     this.$tab = $('footer > .bt-tab')
     this.$panel = $('main > section')
@@ -15,8 +15,8 @@ var paging = {
   }
 }
 
-//模板部分
-var tpl = {
+//模板
+ tpl = {
   isToBottom: function($Viewport, $Content) {
     return $Viewport.height() + $Viewport.scrollTop() + 30 > $Content.height()
   },
@@ -46,6 +46,7 @@ var tpl = {
         </a>
       </div>
     `)
+    $node.find('a').attr('href', ele.alt)
     $node.find('.cover img').attr("src", ele.images.small)
     $node.find('.detail h2').text(ele.title)
     $node.find('.extra .score').text(ele.rating.average)
@@ -63,10 +64,12 @@ var tpl = {
 var top250Page = {
   init: function () {
     var _this = this
-    this.$element = $('main')
+    this.$element = $('#top-250')
     this.$content = this.$element.find('.container')
+    //是否数据正在加载
     this.isLoading = false
-    this.isFinishe = false
+    //是否载入完所有数据
+    this.isFinished = false
     this.page = 0
     this.count = 20
     this.bind()
@@ -81,32 +84,33 @@ var top250Page = {
     var _this = this
     if(_this.clock) {
       clearTimeout(_this.clock)
-    } else {
-      _this.clock = setTimeout(function() {
-        this.$element.on('scroll', function () {
-          console.log(_this.isLoading)
-          if (tpl.isToBottom(_this.$element, _this.$content) && !_this.isLoading && !_this.isFinishe) {
-            console.log('reach bottom and ready to send data!')
-            _this.getData(function (data) {
-              _this.render(data)
-              _this.page++
-              if (_this.count * _this.page >= data.total) {
-                _this.isFinishe = true
-              }
-            })
-          }
-        })
-      }, 300)
-    }
+    } 
+    _this.clock = setTimeout(function() {
+      _this.$element.on('scroll', function () {
+        console.log(_this.isLoading)
+        //每次滚动判断 0.是否滚动到最底部 1.数据没有加载完 2.数据是否正在加载
+        if (tpl.isToBottom(_this.$element, _this.$content) && !_this.isLoading && !_this.isFinished) {
+          console.log('reach bottom and ready to send data!')
+          _this.getData(function (data) {
+            _this.render(data)
+            _this.page++
+            if (_this.count * _this.page >= data.total) {
+              _this.isFinished = true
+            }
+          })
+        }
+      })
+    }, 300)
   },
 
   getData: function (callback) {
     var _this = this
+    _this.isLoading = true
+
     console.log(_this.page)
     console.log(_this.count)
-    if (_this.isLoading) return
+
     //数据已发出，未到达
-    _this.isLoading = true
     _this.$element.find('.loader').addClass('fired')
     $.ajax({
       url: 'https://douban.uieee.com/v2/movie/top250',
@@ -118,6 +122,7 @@ var top250Page = {
       }
     }).done(function (ret) {
       console.log(ret)
+      //数据已到达
       _this.isLoading = false
       _this.$element.find('.loader').removeClass('fired')
       //执行回调
@@ -136,42 +141,46 @@ var top250Page = {
   }
 }
 
-
-
-
-
-
-
-var usBoxPage = {
-  init: function () {
+var usBoardPage = {
+  init: function() {
+    var _this = this
     this.$element = $('#beimei')
-
+    this.$content = this.$element.find('.container')
+    this.getData(function(data){
+      _this.render(data)
+    })
   },
 
-  start: function () {
+  getData: function(callback) {
+    $.ajax({
+      url : 'https://douban.uieee.com/v2/movie/us_box',
+      data : {
+          start : 0,
+          count : 10
+      },
+      dataType : 'jsonp'
+    }).done(function(ret){
+      console.log(ret)
+      callback(ret)
+    })
+  },
 
+  render: function(data) {
+    var _this = this
+    data.subjects.forEach(function(item){
+        var $node = tpl.insertTpl(item.subject)
+        _this.$content.append($node)
+    })
   }
 }
 
-var searchPage = {
-  init: function () {
-
-  },
-  bind: function () {
-
-  },
-  start: function () {
-
-  }
-}
 
 var app = {
   init: function () {
     //初始化页面
     paging.init()
     top250Page.init()
-    usBoxPage.init()
-    searchPage.init()
+    usBoardPage.init()
   }
 }
 //初始化
