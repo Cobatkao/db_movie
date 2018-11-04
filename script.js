@@ -79,19 +79,25 @@ var top250Page = {
 
   bind: function () {
     var _this = this
-    this.$element.on('scroll', function () {
-      console.log(_this.isLoading)
-      if (tpl.isToBottom(_this.$element, _this.$content) && !_this.isLoading && !_this.isFinishe) {
-        console.log('reach bottom and ready to send data!')
-        _this.getData(function (data) {
-          _this.render(data)
-          _this.page++
-          if (_this.count * _this.page >= data.total) {
-            _this.isFinishe = true
+    if(_this.clock) {
+      clearTimeout(_this.clock)
+    } else {
+      _this.clock = setTimeout(function() {
+        this.$element.on('scroll', function () {
+          console.log(_this.isLoading)
+          if (tpl.isToBottom(_this.$element, _this.$content) && !_this.isLoading && !_this.isFinishe) {
+            console.log('reach bottom and ready to send data!')
+            _this.getData(function (data) {
+              _this.render(data)
+              _this.page++
+              if (_this.count * _this.page >= data.total) {
+                _this.isFinishe = true
+              }
+            })
           }
         })
-      }
-    })
+      }, 300)
+    }
   },
 
   getData: function (callback) {
