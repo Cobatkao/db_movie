@@ -16,7 +16,7 @@ const paging = {
 }
 
 //模板
- tpl = {
+ const tpl = {
   isToBottom: function($Viewport, $Content) {
     return $Viewport.height() + $Viewport.scrollTop() + 30 > $Content.height()
   },
@@ -61,7 +61,7 @@ const paging = {
 }
 
 //top250页面
-var top250Page = {
+const top250Page = {
   init: function () {
     var _this = this
     this.$element = $('#top-250')
@@ -84,7 +84,7 @@ var top250Page = {
     var _this = this
     if(_this.clock) {
       clearTimeout(_this.clock)
-    } 
+    }
     _this.clock = setTimeout(function() {
       _this.$element.on('scroll', function () {
         console.log(_this.isLoading)
@@ -141,7 +141,7 @@ var top250Page = {
   }
 }
 
-var usBoardPage = {
+const usBoardPage = {
   init: function() {
     var _this = this
     this.$element = $('#beimei')
@@ -174,13 +174,99 @@ var usBoardPage = {
   }
 }
 
+const search = {
+  init: function() {
+    var _this = this
+    this.$container = $('#Search')
+    this.$content = this.$container.find('.search-result .container')
+    this.page = 0
+    this.count = 10
+    this.isLoading = false
+    this.isFinished = false
+    this.isToBottom = function($Viewport, $Result, $input) {
+      return $Viewport.height() + $Viewport.scrollTop() + 30 > $Result.height() + $input.height()
+    },
+    this.bind()
+    this.getData(function (data) {
+      _this.render(data)
+      _this.page++
+    })
+  },
 
-var app = {
+  bind: function() {
+    var _this = this
+    this.$container.find('.search-area .button').on('click', function() {
+      console.log('click!')
+      _this.getData(function(data) {
+        _this.render(data)
+      })
+    })
+    this.$container.find('.search-area input').on('keyup', function(e) {
+      if(e.keyCode === 13) {
+        _this.getData(function(data) {
+          _this.render(data)
+        })
+      }
+    })
+
+    if(_this.clock) {
+      clearTimeout(_this.clock)
+    }
+
+    _this.clock = setTimeout(function() {
+      _this.$container.on('scroll', function () {
+        console.log(_this.isLoading)
+        //每次滚动判断 0.是否滚动到最底部 1.数据没有加载完 2.数据是否正在加载
+        if (_this.isToBottom(_this.$container, _this.$container.find('.search-result'), _this.$container.find('.search-area')) && !_this.isLoading && !_this.isFinished) {
+          console.log('reach bottom and ready to send data!')
+          _this.getData(function (data) {
+            _this.render(data)
+            _this.page++
+            if (_this.count * _this.page >= data.total) {
+              _this.isFinished = true
+            }
+          })
+        }
+      })
+    }, 300)
+  },
+        
+  getData: function(callback) {
+    var _this = this
+    _this.$container.find('.loader').addClass('fired')
+    var keyword = this.$container.find('.search-area input').val()
+    this.isLoading = true
+    $.ajax({
+      url: 'https://douban.uieee.com/v2/movie/search',
+      data: {
+        q: keyword,
+        start: this.count * this.page,
+        count: this.count
+      },
+      dataType: 'jsonp'
+    }).done(function(ret) {
+      _this.isLoading = false
+      _this.$container.find('.loader').removeClass('fired')
+      callback(ret)
+    })
+  },
+
+  render: function(data) {
+    var _this = this
+    data.subjects.forEach(function (item) {
+      var $node = tpl.insertTpl(item)
+      _this.$content.append($node)
+    })
+  }
+}
+
+const app = {
   init: function () {
     //初始化页面
     paging.init()
     top250Page.init()
     usBoardPage.init()
+    search.init()
   }
 }
 //初始化
