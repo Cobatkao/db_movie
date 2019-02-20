@@ -1,5 +1,12 @@
-# db_movie
-🔍a responsive douban movie search site based on douban api
+# 豆瓣搜索
+
+> 🔍a responsive douban movie search site based on douban api
+
+一个采用 api.douban.com 中的“北美票房榜”“TOP250”“电影搜索”公开API开发而成的移动端页面。使用了**jQuery，Sass，Parcel**。
+
+预览地址：https://cobatkao.github.io/db_movie/dist/index.html
+
+### 记录
 
 - 跨域
 
