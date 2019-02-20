@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta name="referrer" content="never">
-  <link rel="stylesheet" href="./style.scss">
   <style type="text/css">
     /* cyrillic */
     @font-face {
@@ -45,6 +44,8 @@
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
   </style>
+  <link rel="stylesheet" href="./font.css">
+  <link rel="stylesheet" href="./style.scss">
   <title>豆瓣电影</title>
 </head>
 
@@ -56,30 +57,14 @@
       <div class="container"></div>
       <!--滚动元素-->
       <div class="loader">
-        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
-          xml:space="preserve">
-          <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
-            transform="rotate(15.6576 25 25)">
-            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25"
-              dur="0.6s" repeatCount="indefinite"></animateTransform>
-          </path>
-        </svg>
+          <i class="iconfont icon-loading"></i>
       </div>
     </section>
     <!-- 排行榜 -->
     <section id="beimei">
       <div class="container"></div>
       <div class="loader">
-        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
-          xml:space="preserve">
-          <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
-            transform="rotate(15.6576 25 25)">
-            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25"
-              dur="0.6s" repeatCount="indefinite"></animateTransform>
-          </path>
-        </svg>
+          <i class="iconfont icon-loading"></i>
       </div>
     </section>
     <!-- 搜索页面 -->
@@ -91,15 +76,7 @@
         <div class="search-result">
           <div class="container"></div>
           <div class="loader">
-            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-              x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
-              xml:space="preserve">
-              <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
-                transform="rotate(15.6576 25 25)">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25"
-                  dur="0.6s" repeatCount="indefinite"></animateTransform>
-              </path>
-            </svg>
+              <i class="iconfont icon-loading"></i>
           </div>
         </div>
       </div>
@@ -108,26 +85,19 @@
   <!-- tab切换栏 -->
   <footer>
     <div class="bt-tab fired">
-      <svg class="icon">
-        <use xlink:href="#icon-diqiu"></use>
-      </svg>
+      <i class="icon iconfont icon-diqiu"></i>
       <span>North America</span>
     </div>
     <div class="bt-tab">
-      <svg class="icon">
-        <use xlink:href="#icon-bangdan"></use>
-      </svg>
+      <i class="icon iconfont icon-bangdan"></i>
       <span>TOP 250</span>
     </div>
     <div class="bt-tab">
-      <svg class="icon">
-        <use xlink:href="#icon-sousuo1"></use>
-      </svg>
+      <i class="icon iconfont icon-sousuo1"></i>
       <span>Search</span>
     </div>
   </footer>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <script src="//at.alicdn.com/t/font_898622_spg0zdd07br.js"></script>
   <script src="./script.js"></script>
 </body>
 
