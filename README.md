@@ -4,7 +4,7 @@
 
 一个采用 api.douban.com 中的“北美票房榜”“TOP250”“电影搜索”公开API开发而成的移动端页面。使用了**jQuery，Sass，Parcel**。
 
-预览地址：https://cobatkao.github.io/db_movie/dist/index.html
+预览地址：https://cobatkao.github.io/db_movie/index.html
 
 ### 记录
 
