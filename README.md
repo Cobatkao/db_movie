@@ -1,5 +1,12 @@
-# db_movie
-🔍a responsive douban movie search site based on douban api
+# 豆瓣搜索
+
+> 🔍a responsive douban movie search site based on douban api
+
+一个采用 api.douban.com 中的“北美票房榜”“TOP250”“电影搜索”公开API开发而成的移动端页面。使用了**jQuery，Sass，Parcel**。
+
+预览地址：https://cobatkao.github.io/db_movie/dist/index.html
+
+### 记录
 
 - 跨域
 
@@ -7,12 +14,12 @@
 
 解决：支持jsonp的跨域方式，datatype改为jsonp，在url后加上callback=xxx
 
-- 拼接多行url
+- 拼接多行url的方法
 
 1. 每一行结尾加转移符号`\`
 2. 用`+`拼接字符串
 3. 写成数组，每一项为字符串的形式，最后调用`join()`
-4. **推荐：**es6模版字符串
+4. 推荐：es6模版字符串
 
 - 如何判断滚动到底部
 
@@ -29,12 +36,12 @@
 
 1. 窗口的高度：滚动是在固定高度的窗口内滚动；
 2. 滚动的距离
-3. 
 
 - 节流
 
 1. 鼠标滚动到底的时候，避免😊的操作就会导致再次发起请求，给页面设置一个锁。
 2. 函数节流
+
   ```javascript
   let timer
     $('main').on('scroll', function() {
@@ -103,3 +110,5 @@
     })()
   </script>
 ```
+
+- parcel打包
