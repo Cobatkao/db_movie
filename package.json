@@ -4,7 +4,8 @@
   "description": "🔍a responsive douban movie search site based on douban api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "parcel": "parcel build index.html"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "sass": "^1.14.3"
   },
   "dependencies": {
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "node-sass": "^4.11.0"
   }
 }
